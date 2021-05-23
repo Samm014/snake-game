@@ -1,3 +1,4 @@
+
 var canvas = document.getElementById("snake")
 var context = canvas.getContext("2d");
 var box = 32;
@@ -7,28 +8,60 @@ snake[0] = {
     y: 8 * box
 }
 
+$('.btn1').click(function(){
+    clearInterval(jogo);
+    VeloMenos1x();
+})
+
+$('.btn2').click(function(){
+    clearInterval(jogo);
+    VeloMais1x();
+})
+
+
+var backgroundImage = new Image(); 
+var cobraImage = new Image(); 
+var foodImage = new Image(); 
+
+cobraImage.src = 'https://i.pinimg.com/originals/c5/5c/26/c55c2608f79acc3f05ed4be58d1fcd7c.jpg';
+
+foodImage.src = 'food-image.png';
+
+backgroundImage.src = 'https://png.pngtree.com/thumb_back/fw800/back_pic/00/12/73/41564036a03c67f.jpg';
+ 
+
 var direction ="right";
 var food = {
     x: Math.floor(Math.random() * 15 + 1) * box,
     y: Math.floor(Math.random() * 15 + 1) * box
 }
 
-function criarBG(){
-    context.fillStyle = 'lightgreen';
-    context.fillRect(0,0, 16 * box, 16 * box)
+function VeloMenos1x(){
+    clearInterval(jogo);
+   var jogo = setInterval(iniciarJogo, 200);
+ }
+ 
+ function VeloMais1x(){
+    clearInterval(jogo);
+   var jogo = setInterval(iniciarJogo, 60);
 }
+ 
+
+function criarBG(){
+    context.drawImage(backgroundImage, 0, 0);
+    context.beginPath();
+}
+
+
 
 function criarCobrinha(){
     for(i=0;i < snake.length; i++){
-        context.fillStyle = "green";
-        context.fillRect(snake[i].x, snake[i].y, box, box);
-        
+        context.drawImage(cobraImage,snake[i].x, snake[i].y, box, box);
     }
 }
 
 function drawFood(){
-    context.fillStyle = "red";
-    context.fillRect(food.x, food.y, box, box);
+    context.drawImage(foodImage,food.x, food.y, box, box);
 }
 
 document.addEventListener("keydown", update);
@@ -67,7 +100,7 @@ function iniciarJogo(){
      if(direction == "bottom") snakeY += box;
 
      if(snakeX != food.x || snakeY != food.y){
-         snake.pop()
+         snake.pop(3)
      }
      else{food.x = Math.floor(Math.random() * 15 + 1) * box,
        food.y = Math.floor(Math.random() * 15 + 1) * box
@@ -79,6 +112,10 @@ function iniciarJogo(){
      }
 
      snake.unshift(newHead);
+     
 }
 
 var jogo = setInterval(iniciarJogo, 100);
+
+
+
